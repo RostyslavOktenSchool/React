@@ -1,0 +1,12 @@
+
+.course-item {
+  color: darkblue;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+
+.course-list {
+  list-style-type: square;
+  padding-left: 20px;
+}

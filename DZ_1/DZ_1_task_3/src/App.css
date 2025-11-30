@@ -1,0 +1,28 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.App {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.character {
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+  width: 200px;
+}
+
+.character img {
+  border-radius: 8px;
+}
+
+.family {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
