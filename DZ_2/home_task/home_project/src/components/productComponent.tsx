@@ -1,9 +1,9 @@
 // ProductCard.tsx
 import React from "react";
-import type { Product } from "../modules/type";
+import type { IProduct } from "../modules/IProducts";
 
 interface ProductCardProps {
-  product: Product;
+  product: IProduct;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {

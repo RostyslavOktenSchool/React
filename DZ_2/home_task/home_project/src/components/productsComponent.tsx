@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from "react";
 import ProductCard from "./productComponent";
-import type { Product } from "../modules/type";
+import type { IProduct } from "../modules/IProducts";
 
 const ProductsList: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
