@@ -1,8 +1,17 @@
+// Імпортуємо FC (тип для функціональних компонентів) і memo (оптимізація ререндерів)
 import {FC, memo} from "react";
 
-export const UserComponent: FC<{ foo: () => void }> = memo(() => {
-    console.log('user');
-    return (
-        <div>user</div>
-    );
-});
+// Створюємо компонент UserComponent
+// FC<{ foo: () => void }> означає, що пропси мають містити функцію foo
+export const UserComponent: FC<{ foo: () => void }> = 
+    // Обгортаємо компонент у memo
+    // memo каже React: "Не перемальовуй цей компонент, якщо пропси не змінились"
+    memo(() => {
+        // Кожен рендер цього компонента буде писати "user" у консоль
+        console.log('user');
+
+        // Повертаємо просту розмітку: текст "user"
+        return (
+            <div>user</div>
+        );
+    });
