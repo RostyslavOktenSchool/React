@@ -1,6 +1,9 @@
 import React from "react";
 import type { RouteObject } from "react-router-dom";
 import Menu from "../components/Menu";
+import  Users  from "../components/Users";
+import  Posts  from "../components/Posts";
+import  Comments  from "../components/Comments";
 import UsersJsonPlaceholderPage from "../pages/UsersJsonPlaceholderPage";
 import UsersDummyJsonPage from "../pages/UsersDummyJsonPage";
 import PostsJsonPlaceholderPage from "../pages/PostsJsonPlaceholderPage";
@@ -12,7 +15,9 @@ import { Outlet, Navigate } from "react-router-dom";
 const Layout: React.FC = () => (
   <>
     <Menu />
-    <Outlet />
+    <main>
+      <Outlet />
+    </main>
   </>
 );
 
@@ -21,14 +26,36 @@ const routes: RouteObject[] = [
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/users/jsonplaceholder" replace /> },
-      { path: "/users/jsonplaceholder", element: <UsersJsonPlaceholderPage /> },
-      { path: "/users/dummyjson", element: <UsersDummyJsonPage /> },
-      { path: "/posts/jsonplaceholder", element: <PostsJsonPlaceholderPage /> },
-      { path: "/posts/dummyjson", element: <PostsDummyJsonPage /> },
-      { path: "/comments/jsonplaceholder", element: <CommentsJsonPlaceholderPage /> },
-      { path: "/comments/dummyjson", element: <CommentsDummyJsonPage /> },
-      { path: "*", element: <Navigate to="/users/jsonplaceholder" replace /> },
+      { index: true, element: <Navigate to="/users" replace /> },
+
+      {
+        path: "users",
+        element: <Users />,
+        children: [
+          { path: "jsonplaceholder", element: <UsersJsonPlaceholderPage /> },
+          { path: "dummyjson", element: <UsersDummyJsonPage /> },
+        ],
+      },
+
+      {
+        path: "posts",
+        element: <Posts />,
+        children: [
+          { path: "jsonplaceholder", element: <PostsJsonPlaceholderPage /> },
+          { path: "dummyjson", element: <PostsDummyJsonPage /> },
+        ],
+      },
+
+      {
+        path: "comments",
+        element: <Comments />,
+        children: [
+          { path: "jsonplaceholder", element: <CommentsJsonPlaceholderPage /> },
+          { path: "dummyjson", element: <CommentsDummyJsonPage /> },
+        ],
+      },
+
+      { path: "*", element: <Navigate to="/users" replace /> },
     ],
   },
 ];
