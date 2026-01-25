@@ -1,38 +1,57 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
 import type { Car } from "../models/ICar";
 import { createCar } from "../services/carService";
-import { getValidationErrors } from "../utils/validation";
+import { carSchema } from "../utils/validation";
+
+type CarFormData = {
+  brand: string;
+  price: number;
+  year: number;
+};
 
 export default function CarForm({ onCreated }: { onCreated: (car: Car) => void }) {
-  const [brand, setBrand] = useState("");
-  const [price, setPrice] = useState<number>(0);
-  const [year, setYear] = useState<number>(2025);
-  const [errors, setErrors] = useState<string[]>([]);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CarFormData>({
+    resolver: joiResolver(carSchema), // ✅ Joi інтеграція
+    defaultValues: {
+      brand: "",
+      price: 0,
+      year: 2025,
+    },
+  });
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const validationErrors = getValidationErrors(brand, price, year);
-    if (validationErrors.length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+  async function onSubmit(data: CarFormData) {
     try {
-      const created = await createCar({ brand, price, year });
+      const created = await createCar(data);
       onCreated(created);
-      setBrand("");
-      setPrice(0);
-      setYear(2025);
+      reset(); // очищаємо форму після успішного сабміту
     } catch {
-      setErrors(["Помилка створення автівки"]);
+      alert("Помилка створення автівки");
     }
   }
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      <input value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="Brand" />
-      <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} placeholder="Price" />
-      <input type="number" value={year} onChange={(e) => setYear(Number(e.target.value))} placeholder="Year" />
-      {errors.length > 0 && <ul>{errors.map((er) => <li key={er}>{er}</li>)}</ul>}
+    <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <input {...register("brand")} placeholder="Brand" />
+        {errors.brand && <p>{errors.brand.message}</p>}
+      </div>
+
+      <div>
+        <input type="number" {...register("price")} placeholder="Price" />
+        {errors.price && <p>{errors.price.message}</p>}
+      </div>
+
+      <div>
+        <input type="number" {...register("year")} placeholder="Year" />
+        {errors.year && <p>{errors.year.message}</p>}
+      </div>
+
       <button type="submit">Створити</button>
     </form>
   );
