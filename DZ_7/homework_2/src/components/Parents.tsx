@@ -1,14 +1,15 @@
 import React from "react";
 import Level2 from "./LevelTwo";
-import type { IParentProps } from "../interface/IParents";
+import { useMessage } from "../context/MessageContext";
 
+const Parent: React.FC = () => {
+  const { message } = useMessage();
 
-
-const Parent: React.FC<IParentProps> = ({ onMessageChange }) => {
   return (
     <div className="box">
       <h2>Parent</h2>
-      <Level2 onMessageChange={onMessageChange} />
+      {message && <p>Повідомлення: {message}</p>}
+      <Level2 />
     </div>
   );
 };
